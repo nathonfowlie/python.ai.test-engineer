@@ -70,7 +70,7 @@ Refine behavior to better fit the domain (e.g., fintech, medtech, retail)
 
 Optionally tracked via a Knowledge Graph or Metadata Index, showing traceability across stories, scenarios, specs, and defects.
 
-### 🔧 Deployment Options
+## 🔧 Deployment Options
 
 | Stack                                                          | Notes                                                       |
 |----------------------------------------------------------------|-------------------------------------------------------------|
