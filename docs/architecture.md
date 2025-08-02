@@ -79,52 +79,40 @@ Optionally tracked via a Knowledge Graph or Metadata Index, showing traceability
 | Auth + RBAC Layer                                              | Ensure agents act only within permissioned bounds           |
 | CI/CD Integration                                              | Agents triggered on PR, story creation, or pipeline failure |
 
-## 🖼️ Architecture Diagram (Textual Overview)
+## 🖼️ Architecture Diagram
 
 ```mermaid
-graph TD
-  subgraph UI
-    User([User])
+flowchart TD
+  subgraph UI["UI"]
+    User(["User"])
   end
-
-  subgraph Orchestration_And_Runtime
-    LangGraph[⚙️ LangGraph Task Orchestrator]
-    LangChain[☁️ LangChain Agent Runtime]
-    JSON[🔗 Shared I/O Format (JSON)]
+  subgraph Orchestration_And_Runtime["Orchestration_And_Runtime"]
+    LangGraph["LangGraph Task Orchestrator"]
+    LangChain["LangChain Agent Runtime"]
+    JSON["Shared I/O Format (JSON)"]
   end
-
-  subgraph Specialist_Agents
-    Clarifier[🗣️ Business Clarifier Agent]
-    Translator[🛠️ Technical Translator Agent]
-    ScenarioGen[📜 Scenario Designer Agent]
-    ScenarioReview[✅ Scenario Reviewer Agent]
-    StoryGen[🧩 User Story Generator Agent]
-    StoryReview[🔍 Story Reviewer Agent]
-    BDDGen[🧪 BDD Test Spec Generator Agent]
-    BDDReview[🔄 BDD Reviewer Agent]
-    Feedback[📈 Feedback & Learning Agent]
+  subgraph Specialist_Agents["Specialist_Agents"]
+    Clarifier["Business Clarifier Agent"]
+    Translator["Technical Translator Agent"]
+    ScenarioGen["Scenario Designer Agent"]
+    ScenarioReview["Scenario Reviewer Agent"]
+    StoryGen["User Story Generator Agent"]
+    StoryReview["Story Reviewer Agent"]
+    BDDGen["BDD Test Spec Generator Agent"]
+    BDDReview["BDD Reviewer Agent"]
+    Feedback["Feedback & Learning Agent"]
   end
-
-  subgraph Knowledge_And_Tools
-    Docs[📚 Org Standards / Business Strategy]
-    APIs[🔧 API Docs / System Metadata]
-    VectorDB[🧠 Weaviate Vector DB]
-    TestLogs[🧪 CTRF Test Result Parser]
-    Tools[🛠️ External Tools (CI/CD, JIRA, Scanners)]
+  subgraph Knowledge_And_Tools["Knowledge_And_Tools"]
+    Docs["Org Standards / Business Strategy"]
+    APIs["API Docs / System Metadata"]
+    VectorDB["Weaviate Vector DB"]
+    TestLogs["CTRF Test Result Parser"]
+    Tools["External Tools (CI/CD, JIRA, Scanners)"]
   end
 
   User --> LangGraph
   LangGraph --> LangChain
-  LangChain --> Clarifier
-  LangChain --> Translator
-  LangChain --> ScenarioGen
-  LangChain --> ScenarioReview
-  LangChain --> StoryGen
-  LangChain --> StoryReview
-  LangChain --> BDDGen
-  LangChain --> BDDReview
-  LangChain --> Feedback
-
+  LangChain --> Clarifier & Translator & ScenarioGen & ScenarioReview & StoryGen & StoryReview & BDDGen & BDDReview & Feedback
   Clarifier --> JSON
   Translator --> JSON
   ScenarioGen --> JSON
@@ -134,19 +122,14 @@ graph TD
   BDDGen --> JSON
   BDDReview --> JSON
   Feedback --> JSON
-
-  JSON --> VectorDB
-  JSON --> LangGraph
-
+  JSON --> VectorDB & LangGraph
   TestLogs --> Feedback
-  Docs --> Clarifier
-  Docs --> Translator
-  Docs --> ScenarioGen
-  Docs --> StoryGen
-  Docs --> BDDGen
-  APIs --> Translator
-  APIs --> ScenarioGen
-  APIs --> BDDGen
-  Tools --> Feedback
-  Tools --> BDDGen
+  Docs --> Clarifier & Translator & ScenarioGen & StoryGen & BDDGen
+  APIs --> Translator & ScenarioGen & BDDGen
+  Tools --> Feedback & BDDGen
+  
+  style Specialist_Agents fill:#BBDEFB,stroke:#2962FF
+  style Orchestration_And_Runtime fill:#C8E6C9,stroke:#00C853
+  style Knowledge_And_Tools stroke:#616161
+  style UI stroke:#FF6D00,fill:#FFE0B2
 ```
